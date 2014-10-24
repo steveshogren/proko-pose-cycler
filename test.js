@@ -4,34 +4,28 @@ var rand = function(s, e) {
 };
 var times = 1;
 var pad = function (str, max) {
-  str = str.toString();
-  return str.length < max ? pad("0" + str, max) : str;
-}
+    str = str.toString();
+    return str.length < max ? pad("0" + str, max) : str;
+};
+var pickRandomImage = function() {
+    var which = rand(0,5);
+    var t = [{ file : ".\\Poses\\Chanon_Large\\Chanon",
+               max : 313},
+             { file : ".\\Poses\\Aaron_Large\\Aaron" ,
+               max : 325},
+             {file : ".\\Poses\\Marcia_Large\\Marcia",
+              max : 226},
+             {file : ".\\Poses\\Veronica_Large\\Veronica",
+              max : 433},
+             {file : ".\\Poses\\Yoni_Large\\Yoni",
+              max : 306}];
+    return t[which];
+};
 var randomImage = function() {
-    var which = rand(1,6);
-    var file = "";
-    var max = 1;
-    if (which == 1) {
-        file = ".\\Poses\\Chanon_Large\\Chanon" ;
-        max = 313;
-    }
-    if (which == 2) {
-        file = ".\\Poses\\Aaron_Large\\Aaron" ;
-        max = 325;
-    }
-    if (which == 3) {
-        file = ".\\Poses\\Marcia_Large\\Marcia" ;
-        max = 226;
-    }
-    if (which == 4) {
-        file = ".\\Poses\\Veronica_Large\\Veronica" ;
-        max = 433;
-    }
-    if (which == 5) {
-        file = ".\\Poses\\Yoni_Large\\Yoni" ;
-        max = 306;
-    }
-    document.getElementById('image').src = file + pad(rand(1, max),3) + ".jpg" 
+    var image = pickRandomImage();
+    var file = image.file;
+    var max = image.max;
+    document.getElementById('image').src = file + pad(rand(1, max),3) + ".jpg";
 };
 randomImage();
 var interval = setInterval(function() {
