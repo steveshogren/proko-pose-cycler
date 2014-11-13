@@ -18,23 +18,23 @@ var randomImage = function() {
     var file = "";
     var max = 1;
     if (which == 1) {
-        file = ".\\Poses\\Chanon_Large\\Chanon" ;
+        file = "..\\Poses\\Chanon_Large\\Chanon" ;
         max = 313;
     }
     if (which == 2) {
-        file = ".\\Poses\\Aaron_Large\\Aaron" ;
+        file = "..\\Poses\\Aaron_Large\\Aaron" ;
         max = 325;
     }
     if (which == 3) {
-        file = ".\\Poses\\Marcia_Large\\Marcia" ;
+        file = "..\\Poses\\Marcia_Large\\Marcia" ;
         max = 226;
     }
     if (which == 4) {
-        file = ".\\Poses\\Veronica_Large\\Veronica" ;
+        file = "..\\Poses\\Veronica_Large\\Veronica" ;
         max = 433;
     }
     if (which == 5) {
-        file = ".\\Poses\\Yoni_Large\\Yoni" ;
+        file = "..\\Poses\\Yoni_Large\\Yoni" ;
         max = 306;
     }
     document.getElementById('image').src = file + pad(rand(1, max),3) + ".jpg" 
