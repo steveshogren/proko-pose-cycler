@@ -1,6 +1,6 @@
 var seconds_left = 30;
 var session_length = 30;
-var pause = false;
+var pause = true;
 var rand = function(s, e) {
     return Math.floor((Math.random() * (e-s)) + s);
 };
@@ -40,7 +40,15 @@ var randomImage = function() {
     document.getElementById('image').src = file + pad(rand(1, max),3) + ".jpg" 
 };
 randomImage();
-
+var nextImage = function() {
+    randomImage();
+    
+    if (times <= 10) {seconds_left = 30; session_length = 30; }
+    else if (times <= 14) {seconds_left = 60; session_length = 60; }
+    else if (times <= 16) {seconds_left = 300; session_length = 300; }
+    else {seconds_left = 600; session_length = 600;}
+    times++;
+};
 var cycleFn = function() {
     if (! pause) {
         seconds_left--;
@@ -48,13 +56,7 @@ var cycleFn = function() {
     document.getElementById('timer_div').innerHTML = pad(seconds_left, 3) + " - " + pad(times,2);
     document.getElementById('progressBar').style.width = percentOver() + "%";
     if (seconds_left <= 0) {
-        randomImage();
-        
-        if (times <= 10) {seconds_left = 30; session_length = 30; }
-        else if (times <= 14) {seconds_left = 60; session_length = 60; }
-        else if (times <= 16) {seconds_left = 300; session_length = 300; }
-        else {seconds_left = 600; session_length = 600;}
-        times++;
+        nextImage();
     }
 };
                            
@@ -62,9 +64,10 @@ var interval = setInterval(cycleFn, 1000);
 
 var togglePause = function() {
     pause = !pause;
+    document.getElementById('togglePaused').innerHTML = (pause) ? "Start" : "Pause"; 
 };
 
 var skip = function() {
     pause = false;
-    seconds_left = 1;
+    nextImage();
 };
