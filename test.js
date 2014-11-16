@@ -1,6 +1,8 @@
-var seconds_left = 30;
-var session_length = 30;
-var pause = true;
+var seconds_left = 30,
+    session_length = 30,
+    history = [],
+    pause = true;
+
 var rand = function(s, e) {
     return Math.floor((Math.random() * (e-s)) + s);
 };
@@ -8,7 +10,7 @@ var times = 1;
 var pad = function (str, max) {
   str = str.toString();
   return str.length < max ? pad("0" + str, max) : str;
-}
+};
 
 var percentOver = function () {
     return (seconds_left/session_length)*100;
@@ -37,7 +39,9 @@ var randomImage = function() {
         file = "..\\Poses\\Yoni_Large\\Yoni" ;
         max = 306;
     }
-    document.getElementById('image').src = file + pad(rand(1, max),3) + ".jpg" 
+    var src = file + pad(rand(1, max),3) + ".jpg";
+    document.getElementById('image').src = src;
+    history.append(src);
 };
 randomImage();
 var nextImage = function() {
