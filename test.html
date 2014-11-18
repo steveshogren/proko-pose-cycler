@@ -1,14 +1,14 @@
-<html>
+<html ng-app="cycleApp">
   <head>
+    <script src="angular.js"></script>
+    <script src="cyclecontroller.js"></script>
   </head> 
-  <body>
+  <body ng-controller="CycleController">
     <div id="progressBar" style="float:left; background-color:black; width: 100%">-</div>
     <div id="" style="float:left; width: 100%"></div>
     <span id="timer_div" style="font-size:3em; float:left; padding-left:70px">030 - 00</span>
-    <span onclick="skip()" style="font-size:3em; float:left"> - Skip</span>
-    <!-- <span id="togglePaused" onclick="togglePause()" style="font-size:5em; float:left">Start</span> -->
-    <img onclick="togglePause()" id="image" src="" alt="Smiley face" style="height: 90%;   margin-left: auto;
+    <span ng-click="skip()" style="font-size:3em; float:left"> - Skip</span>
+    <img ng-click="togglePause()" id="image" src="" alt="Smiley face" style="height: 90%;   margin-left: auto;
     margin-right: auto;">
   </body>
-  <script src="test.js"></script>
 </html>
