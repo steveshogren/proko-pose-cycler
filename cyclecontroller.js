@@ -8,7 +8,6 @@ cycleApp.controller('CycleController', function ($scope) {
     $scope.pause = true;
     $scope.times = 1;
     
-
     $scope.rand = function(s, e) { 
         return Math.floor((Math.random() * (e-s)) + s);
     };
@@ -20,9 +19,9 @@ cycleApp.controller('CycleController', function ($scope) {
         return ($scope.seconds_left/$scope.session_length)*100;
     };
     $scope.randomImage = function() {
-        var which = $scope.rand(1,6);
-        var file = "";
-        var max = 1;
+        var which = $scope.rand(1,6),
+            file = "",
+            max = 1;
         if (which == 1) {
             file = "..\\Poses\\Chanon_Large\\Chanon" ;
             max = 313;
@@ -45,7 +44,7 @@ cycleApp.controller('CycleController', function ($scope) {
         }
         var src = file + $scope.pad($scope.rand(1, max),3) + ".jpg";
         document.getElementById('image').src = src;
-        $scope.history.append(src);
+        $scope.history.push(src);
     }; 
     $scope.nextImage = function() {
         $scope.randomImage();
@@ -69,7 +68,6 @@ cycleApp.controller('CycleController', function ($scope) {
     
     $scope.togglePause = function() {
         $scope.pause = !$scope.pause;
-        document.getElementById('togglePaused').innerHTML = ($scope.pause) ? "Start" : "Pause"; 
     };
 
     $scope.skip = function() {
@@ -78,5 +76,5 @@ cycleApp.controller('CycleController', function ($scope) {
     };
 
     $scope.randomImage();
-    var interval = setInterval($scopt.cycleFn, 1000);
+    var interval = setInterval($scope.cycleFn, 1000);
 });
