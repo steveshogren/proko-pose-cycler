@@ -46,13 +46,18 @@ cycleApp.controller('CycleController', function ($scope) {
         document.getElementById('image').src = src;
         $scope.history.push(src);
     }; 
+    $scope.defaultProgram = [{times: 10, seconds:30},
+                             {times: 14,  seconds:60},
+                             {times: 16,  seconds:300},
+                             {times: 20, seconds:600}];
     $scope.nextImage = function() {
         $scope.randomImage();
-        
-        if ($scope.times <= 10) {$scope.seconds_left = 30; $scope.session_length = 30; }
-        else if ($scope.times <= 14) {$scope.seconds_left = 60; $scope.session_length = 60; }
-        else if ($scope.times <= 16) {$scope.seconds_left = 300; $scope.session_length = 300; }
-        else {$scope.seconds_left = 600; $scope.session_length = 600;}
+       
+        var t = _.filter($scope.defaultProgram, function(x){ return $scope.times <= x.times; });
+        var s = _.first(t);
+        $scope.seconds_left = s.seconds;
+        $scope.session_length = s.seconds;
+
         $scope.times++;
     };
     $scope.cycleFn = function() {
