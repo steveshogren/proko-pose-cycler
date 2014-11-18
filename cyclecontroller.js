@@ -1,6 +1,6 @@
 var cycleApp = angular.module('cycleApp', []);
 
-cycleApp.controller('CycleController', function ($scope) {
+cycleApp.controller('CycleController', function ($scope, $interval) {
 
     $scope.seconds_left = 30;
     $scope.session_length = 30;
@@ -47,8 +47,8 @@ cycleApp.controller('CycleController', function ($scope) {
         $scope.history.push(src);
     }; 
     $scope.defaultProgram = [{times: 10, seconds:30},
-                             {times: 14,  seconds:60},
-                             {times: 16,  seconds:300},
+                             {times: 14, seconds:60},
+                             {times: 16, seconds:300},
                              {times: 20, seconds:600}];
     $scope.nextImage = function() {
         $scope.randomImage();
@@ -60,12 +60,17 @@ cycleApp.controller('CycleController', function ($scope) {
 
         $scope.times++;
     };
+    $scope.percentStyle = {"width": "100%"};
+    
     $scope.cycleFn = function() {
         if (! $scope.pause) {
             $scope.seconds_left--;
         }
         document.getElementById('timer_div').innerHTML = $scope.pad($scope.seconds_left, 3) + " - " + $scope.pad($scope.times,2);
-        document.getElementById('progressBar').style.width = $scope.percentOver() + "%";
+        // document.getElementById('progressBar').style.width = $scope.percentOver() + "%";
+
+        $scope.percentStyle.width = $scope.percentOver() + "%";
+
         if ($scope.seconds_left <= 0) {
             $scope.nextImage();
         }
@@ -81,5 +86,5 @@ cycleApp.controller('CycleController', function ($scope) {
     };
 
     $scope.randomImage();
-    var interval = setInterval($scope.cycleFn, 1000);
+    var interval = $interval($scope.cycleFn, 1000);
 });

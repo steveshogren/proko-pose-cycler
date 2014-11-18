@@ -5,9 +5,9 @@
     <script src="cyclecontroller.js"></script>
   </head> 
   <body ng-controller="CycleController">
-    <div id="progressBar" style="float:left; background-color:black; width: 100%">-</div>
+    <div id="progressBar" ng-style="percentStyle" style="float:left; background-color:black;">-</div>
     <div id="" style="float:left; width: 100%"></div>
-    <span id="timer_div" style="font-size:3em; float:left; padding-left:70px">030 - 00</span>
+    <span id="timer_div" style="font-size:3em; float:left; padding-left:70px">030 - 01</span>
     <span ng-click="skip()" style="font-size:3em; float:left"> - Skip</span>
     <img ng-click="togglePause()" id="image" src="" alt="Smiley face" 
          style="height: 90%;   margin-left: auto; margin-right: auto;">
