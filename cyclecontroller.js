@@ -7,7 +7,11 @@ cycleApp.controller('CycleController', function ($scope, $interval) {
     $scope.history = [];
     $scope.pause = true;
     $scope.times = 1;
-    
+    $scope.percentStyle = {"width": "100%"};
+    $scope.prettyTimes = "01";
+    $scope.prettySecondsLeft = "030";
+    $scope.imageSrc = "";
+
     $scope.rand = function(s, e) { 
         return Math.floor((Math.random() * (e-s)) + s);
     };
@@ -60,10 +64,6 @@ cycleApp.controller('CycleController', function ($scope, $interval) {
 
         $scope.times++;
     };
-    $scope.percentStyle = {"width": "100%"};
-    $scope.prettyTimes = "01";
-    $scope.prettySecondsLeft = "030";
-    $scope.imageSrc = "";
     
     $scope.cycleFn = function() {
         if (! $scope.pause) {
@@ -88,5 +88,5 @@ cycleApp.controller('CycleController', function ($scope, $interval) {
     };
 
     $scope.randomImage();
-    var interval = $interval($scope.cycleFn, 1000);
+    $interval($scope.cycleFn, 1000);
 });
