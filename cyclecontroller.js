@@ -43,7 +43,7 @@ cycleApp.controller('CycleController', function ($scope, $interval) {
             max = 306;
         }
         var src = file + $scope.pad($scope.rand(1, max),3) + ".jpg";
-        document.getElementById('image').src = src;
+        $scope.imageSrc = src;
         $scope.history.push(src);
     }; 
     $scope.defaultProgram = [{times: 10, seconds:30},
@@ -61,14 +61,16 @@ cycleApp.controller('CycleController', function ($scope, $interval) {
         $scope.times++;
     };
     $scope.percentStyle = {"width": "100%"};
+    $scope.prettyTimes = "01";
+    $scope.prettySecondsLeft = "030";
+    $scope.imageSrc = "";
     
     $scope.cycleFn = function() {
         if (! $scope.pause) {
             $scope.seconds_left--;
         }
-        document.getElementById('timer_div').innerHTML = $scope.pad($scope.seconds_left, 3) + " - " + $scope.pad($scope.times,2);
-        // document.getElementById('progressBar').style.width = $scope.percentOver() + "%";
-
+        $scope.prettySecondsLeft = $scope.pad($scope.seconds_left, 3);
+        $scope.prettyTimes = $scope.pad($scope.times,2);
         $scope.percentStyle.width = $scope.percentOver() + "%";
 
         if ($scope.seconds_left <= 0) {
