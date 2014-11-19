@@ -7,8 +7,8 @@
   <body ng-controller="CycleController">
     <div ng-style="percentStyle" style="float:left; background-color:black;">-</div>
     <div style="float:left; width: 100%"></div>
-    <span ng-click="back()" style="font-size:3em; float:left">Back -</span>
     <span style="font-size:3em; float:left; padding-left:70px">
+      <span ng-click="back()">Back -</span>
       {{prettySecondsLeft}} - {{prettyTimes}}
     </span>
     <span ng-click="skip()" style="font-size:3em; float:left"> - Skip</span>

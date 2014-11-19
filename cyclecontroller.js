@@ -6,7 +6,7 @@ cycleApp.controller('CycleController', function ($scope, $interval) {
     $scope.session_length = 30;
     $scope.history = [];
     $scope.pause = true;
-    $scope.times = 1;
+    $scope.times = 0;
     $scope.percentStyle = {"width": "100%"};
     $scope.prettyTimes = "01";
     $scope.prettySecondsLeft = "030";
@@ -46,32 +46,28 @@ cycleApp.controller('CycleController', function ($scope, $interval) {
             file = "..\\Poses\\Yoni_Large\\Yoni" ;
             max = 306;
         }
-        var src = file + $scope.pad($scope.rand(1, max),3) + ".jpg";
-        $scope.imageSrc = src;
-        $scope.history.push(src);
+        return file + $scope.pad($scope.rand(1, max),3) + ".jpg";
     }; 
     $scope.defaultProgram = [{times: 10, seconds:30},
                              {times: 14, seconds:60},
                              {times: 16, seconds:300},
                              {times: 20, seconds:600}];
-    $scope.previousImage = function() {
-        $scope.times--;
-        $scope.imageSrc = $scope.history.pop();
+    $scope.updateImage = function() {
+        $scope.imageSrc = $scope.history[$scope.times];
         var t = _.filter($scope.defaultProgram, function(x){ return $scope.times <= x.times; });
         var s = _.first(t);
         $scope.seconds_left = s.seconds;
         $scope.session_length = s.seconds;
     };
 
-    $scope.nextImage = function() {
-        $scope.randomImage();
-       
-        var t = _.filter($scope.defaultProgram, function(x){ return $scope.times <= x.times; });
-        var s = _.first(t);
-        $scope.seconds_left = s.seconds;
-        $scope.session_length = s.seconds;
+    $scope.previousImage = function() {
+        $scope.times--;
+        $scope.updateImage();
+    };
 
+    $scope.nextImage = function() {
         $scope.times++;
+        $scope.updateImage();
     };
     
     $scope.cycleFn = function() {
@@ -96,10 +92,18 @@ cycleApp.controller('CycleController', function ($scope, $interval) {
         $scope.nextImage();
     };
     $scope.back = function() {
-        $scope.pause = false;
-        $scope.previousImage();
+        if ($scope.times !== 1){ 
+            $scope.pause = false;
+            $scope.previousImage();
+        }
     };
 
-    $scope.randomImage();
+    $scope.init = function() {
+        $scope.history = _.map(_.range(100), function(x) { return $scope.randomImage();});
+        $scope.nextImage();
+    };
+
+
+    $scope.init();
     $interval($scope.cycleFn, 1000);
 });
