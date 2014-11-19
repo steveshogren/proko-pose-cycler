@@ -54,6 +54,15 @@ cycleApp.controller('CycleController', function ($scope, $interval) {
                              {times: 14, seconds:60},
                              {times: 16, seconds:300},
                              {times: 20, seconds:600}];
+    $scope.previousImage = function() {
+        $scope.times--;
+        $scope.imageSrc = $scope.history.pop();
+        var t = _.filter($scope.defaultProgram, function(x){ return $scope.times <= x.times; });
+        var s = _.first(t);
+        $scope.seconds_left = s.seconds;
+        $scope.session_length = s.seconds;
+    };
+
     $scope.nextImage = function() {
         $scope.randomImage();
        
@@ -85,6 +94,10 @@ cycleApp.controller('CycleController', function ($scope, $interval) {
     $scope.skip = function() {
         $scope.pause = false;
         $scope.nextImage();
+    };
+    $scope.back = function() {
+        $scope.pause = false;
+        $scope.previousImage();
     };
 
     $scope.randomImage();
