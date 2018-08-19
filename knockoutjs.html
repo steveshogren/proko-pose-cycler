@@ -1,0 +1,104 @@
+<!-- 
+ at http://knockoutjs.com/ at the "Live Example" section
+ it looks like you need to perform that "activates knockout" action that 
+ binds data from javascript into the DOM
+ Right now, this cshtml file is populated on the server, not the client.
+ The c# server will take the data from the ViewBag and interpolate it into
+ the html template to return to the client. 
+ Knockout is designed so that you can manipulate the DOM without having to go
+ back to the server for a whole new HTML request/response
+
+ You can mix them up, esp for learning a new library like knockout, but 
+ keep in mind that difference. So for example, let's say you want to server-side 
+ render the document, but then do some extra interactivity with knockout.
+ It might look like this:
+
+ I have 3 sections for you, problem is all JS has to been in one part,
+and all the DOM in another, otherwise I'd group the 3 sections together
+-->
+<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-debug.js'></script>
+
+<!-- Part 1 -->
+<p>Ingredient name: <strong data-bind="text: ingredientName"></strong></p>
+<p>Recipe name: <strong data-bind="text: recipeName"></strong></p>
+
+
+<!-- Part 2 with a foreach --> 
+<ul data-bind="foreach: ingredients">
+	<li data-bind="text: name"></li>
+</ul>
+
+<!-- 
+Where it gets odd is when you are using a server-side template like cshtml,
+because you are already putting all the data into the template already. It is just an
+extra step to have knockout put it into the DOM for you, when cshtml does that already
+
+So you see that knockout is probably overkill for a simple view of data, because it
+wont make displaying data any easier. What it DOES do well is make interactive pages
+much easier. This is hard to put into a basic MVC site. MVC is designed to make it so 
+you "dont need tools like knockout", and breaking out of that pattern can be pretty 
+hard to do. 
+
+But let's think of something useful that knockout could add to a server-side rendered 
+inventory. How about live pricing of ingredients, and a running count of the cost? It won't 
+be on the server, but it could be on the client only.
+
+I will use the fake api called "jsonplaceholder" for dummy data
+-->
+
+<button data-bind="click: fetchPrices">Fetch 'prices'</button>
+<ul data-bind="foreach: prices">
+	<li>
+		Name: <span data-bind="text: title"></span>
+		Price: <span data-bind="text: id"></span>
+	</li>
+</ul>
+Total: <span data-bind="text: priceSum"></span>
+
+<script>
+function IngredientViewModel() {
+	// PART 1 - Static data
+	this.ingredientName = "TEST PART"; // could be @ViewBag.ingDetails.IngredientName
+	this.recipeName = "TEST NAME"; //     see ^
+
+	// PART 2 - Static list data
+        // just demoing a list/foreach pattern
+        this.ingredients = [
+            { name: 'Honey'},
+            { name: 'Cheese'},
+            { name: 'Fish'}
+        ];
+
+	// PART 3 - Making http request
+	// needs to be an observable to start, otherwise it
+        // wont update the DOM when it changes
+	this.prices = ko.observable();
+	this.priceSum = ko.observable();
+	// the button click event calls this
+	this.fetchPrices = function() {
+		var that = this;
+		// finding a list of "prices" from a free list of todos online
+		fetch('https://jsonplaceholder.typicode.com/todos/')
+		// convert response to json
+		  .then(response => response.json())
+		// save the first five into prices and priceSum
+		  .then(json => {
+			console.log(json);
+ 			// first 5
+			var priceObjects = json.slice(0,5)
+ 			// notify the DOM to redraw using new data into the observable
+			that.prices(priceObjects);
+                        var sum = priceObjects.reduce((a, b) => a + b.id, 0)
+		        that.priceSum(sum);	
+			})
+		}
+ 	};
+ 
+
+ko.applyBindings(new IngredientViewModel());
+</script>
+
+
+
+
+
