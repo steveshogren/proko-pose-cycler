@@ -40,6 +40,17 @@ function App() {
   };
 
   useEffect(() => {
+      if (!paused) {
+        console.log("increment: ", secondsIn)
+        setSecondsIn(secondsIn + 1);
+      }    
+      if (secondsIn >= pictureTime) {
+        setPictureId(pictureId + 1);
+        setSecondsIn(1);
+      }
+  }, [totalTime]);
+
+  useEffect(() => {
     setPictureIdToTime(currentProgram.flatMap(template => {
       return lo.range(template.times).map(t => template.seconds);
     }));
@@ -51,14 +62,7 @@ function App() {
     setPaused(true);
 
     const timerId = setInterval(() => {
-      setTotalTime(totalTime + 1);
-      if (!paused) {
-        setSecondsIn(secondsIn + 1);
-      }
-      if (secondsIn >= pictureTime) {
-        setPictureId(pictureId + 1);
-        setSecondsIn(1);
-      }
+      setTotalTime(totalTime => totalTime + 1);
     }, 1000);
 
     return () => clearInterval(timerId);
