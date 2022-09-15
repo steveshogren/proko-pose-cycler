@@ -55,7 +55,7 @@ function App() {
       return lo.range(template.times).map(t => template.seconds);
     }));
 
-    setHistory(lo.range(100).map(() => Util.randomImage()));
+    setHistory(lo.range(100).map(() => Util.randomImage(0)));
     setSecondsIn(0);
     setTotalTime(0);
     setPictureId(0);
@@ -83,11 +83,8 @@ function App() {
     setPictureId(pictureId > 0 ? pictureId - 1 : 0);
   }
 
-  console.log("outer", secondsIn, "pictureId:" + pictureId);
-
 
   const percentThrough = Math.abs(100 - (secondsIn / pictureTime * 100))
-  const makePoseUrl = (h) => "..\\Poses\\" + h;
 
   const makeTime = (time) => {
     return new Date(time * 1000).toISOString().substr(14, 5)
@@ -151,7 +148,7 @@ function App() {
 
           <div className="row">
             <div className="col-md-12" onClick={() => setPaused(!paused)}>
-              <img className="mainImage" src={makePoseUrl(history[pictureId])}></img>
+              <img className="mainImage" src={history[pictureId]}></img>
             </div>
           </div>
         </div>
